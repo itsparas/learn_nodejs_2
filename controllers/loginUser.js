@@ -9,7 +9,7 @@ const login = async (req, res) => {
   const key = process.env.KEY;
   bcrypt.compare(password, user.password, (err, result) => {
     if (result) {
-      jwt.sign({ email, password, _id: user._id }, key, function (err, token) {
+      jwt.sign({ email, password, id: user._id }, key, function (err, token) {
         if (token) {
           res.json({
             token,

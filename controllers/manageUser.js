@@ -45,7 +45,8 @@ const getAllUser = async (req, res) => {
 
 const getUser = async (req, res) => {
   try {
-    const userId = mongoose.Types.ObjectId(req.body.id);
+    const id = req.body.id || req.id;
+    const userId = mongoose.Types.ObjectId(id);
     let user = await User.findOne(userId).select("-password");
     res.json({
       message: "requested user",
