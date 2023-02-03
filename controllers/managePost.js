@@ -3,21 +3,27 @@ const mongoose = require("mongoose");
 
 const createPost = async (req, res) => {
   try {
-    const { userId, postTitle, postDescription, postContent } = req.body;
+    if (req.userId === req.body.userId) {
+      const { userId, postTitle, postDescription, postContent } = req.body;
 
-    const post = new Posts({
-      userId,
-      postContent,
-      postDescription,
-      postTitle,
-    });
-    const createdPost = await post.save();
-    console.log(createdPost);
+      const post = new Posts({
+        userId,
+        postContent,
+        postDescription,
+        postTitle,
+      });
+      const createdPost = await post.save();
+      console.log(createdPost);
 
-    res.json({
-      message: "post created succesfully",
-      createdPost,
-    });
+      res.json({
+        message: "post created succesfully",
+        createdPost,
+      });
+    } else {
+      res.json({
+        message: "You are not allowed to post",
+      });
+    }
   } catch (error) {
     res.json({
       message: error.message,

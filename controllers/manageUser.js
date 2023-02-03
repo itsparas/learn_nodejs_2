@@ -15,7 +15,8 @@ const createUser = async (req, res) => {
     age,
     gender,
   });
-  user
+  const response = await user.save();
+  await user
     .save()
     .then((data) => {
       res.json({
@@ -60,10 +61,10 @@ const getUser = async (req, res) => {
 };
 const updateUser = async (req, res) => {
   try {
-    const userId = mongoose.Types.ObjectId(req.body.id);
+    // const userId = mongoose.Types.ObjectId(req.body.id);
     const { email, firstName, lastName, age, gender } = req.body;
 
-    let user = await User.findOne(userId);
+    let user = await User.findOne({ _id: req.body.id });
 
     user.email = email ? email : user.email;
     user.firstName = firstName ? firstName : user.firstName;
@@ -72,6 +73,8 @@ const updateUser = async (req, res) => {
     user.gender = gender || user.gender;
 
     let updatedUser = await user.save();
+    const ll = { updateUser };
+    console.log(ll);
 
     res.json({
       message: "Updated user",

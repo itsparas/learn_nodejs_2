@@ -9,6 +9,7 @@ const authorization = async (req, res, next) => {
   jwt.verify(onlytoken, key, (err, decoded) => {
     if (!err) {
       req.id = decoded ? decoded._id : undefined;
+      req.userId = decoded.email;
       next();
     } else {
       res.json({
